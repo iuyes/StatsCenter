@@ -1,0 +1,17 @@
+#! /usr/bin/php
+<?php
+define('DEBUG', 'on');
+define('WEBPATH', __DIR__);
+
+require __DIR__.'/../../../vendor/autoload.php';
+Swoole\Loader::vendor_init();
+
+$setting['worker_num'] = 24;
+$setting['daemonize'] = 1;
+$setting['pid_file'] = __DIR__.'/../../run/mostats_svr.pid';
+$setting['worker_dump_file'] = __DIR__.'/../dump_file/worker';
+$setting['task_dump_file'] = __DIR__.'/../dump_file/task';
+$svr = new App\StatsCenterSvr1();
+$svr->setLogger(new Swoole\Log\FileLog(__DIR__.'/../../log/mostat_server.log'));
+//$svr->setLogger(new Swoole\Log\EchoLog(array('display'=>1)));
+$svr->run($setting);

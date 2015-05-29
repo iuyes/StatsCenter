@@ -1,0 +1,15 @@
+#! /usr/bin/php
+<?php
+define('DEBUG', 'on');
+define('WEBPATH', __DIR__);
+
+require __DIR__.'/../../../vendor/autoload.php';
+Swoole\Loader::vendor_init();
+
+$setting['worker_num'] = 80;
+$setting['daemonize'] = 1;
+$setting['pid_file'] = __DIR__.'/../../run/log_svr.pid';
+
+$svr = new App\LogSvr();
+$svr->setLogger(new Swoole\Log\FileLog(__DIR__.'/../../log/log_svr.log'));
+$svr->run($setting);

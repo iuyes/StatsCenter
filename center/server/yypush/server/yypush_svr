@@ -1,0 +1,33 @@
+#! /usr/bin/php
+<?php
+define('DEBUG', 'on');
+define('WEBPATH', __DIR__);
+
+require __DIR__.'/../../../vendor/autoload.php';
+Swoole\Loader::vendor_init();
+
+
+$setting['pid_file'] = __DIR__.'/../../run/yypush_svr.pid';
+if (get_cfg_var('env.name') == 'dev')
+{
+    \Swoole::$php->config->setPath(__DIR__.'/apps/configs/dev/');
+    $setting['worker_num'] = 1;
+    $setting['daemonize'] = 0;
+}
+else
+{
+    \Swoole::$php->config->setPath(__DIR__.'/apps/configs/');
+    $setting['worker_num'] = 1;
+    $setting['daemonize'] = 1;
+}
+$svr = new App\YYPushSvr();
+if (get_cfg_var('env.name') == 'dev')
+{
+    $svr->setLogger(new Swoole\Log\EchoLog(array('display'=>1)));
+}
+else
+{
+    $svr->setLogger(new Swoole\Log\FileLog(__DIR__.'/../../log/yypush_svr.log'));
+}
+
+$svr->run($setting);

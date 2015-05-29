@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf8"?>
+<sysmessage>
+    <type>1</type>
+    <app_id>373</app_id>
+    <uid>50014553</uid>
+    <saveOffline>1</saveOffline>
+    <expiredate>2015-01-15 10:34:02</expiredate>
+    <message>
+        <sysmessage>
+            <display_type>100</display_type>
+            <message>
+                <poptype>common_pop</poptype>
+                <effecttype>FadeEffect</effecttype>
+                <closetime>20000</closetime>
+                <style>RightBottomDirection</style>
+                <width>280</width>
+                <height>190</height>
+                <title textColor="0,0,0">多玩统计报警</title>
+                <context>
+                    <![CDATA[<html>
+                        <head><meta http-equiv="Content-Language" content="zh-cn">
+                        <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+                        <title>多玩数据统计中心</title>
+                        </head>
+                        <body>
+                            <div>模块:lolbox-1000285</div>
+                            <div>接口:phpgetCurrentMatchDataMap-5002056</div>
+                            <div>5分钟内请求次数:5</div>
+                            <div>5分钟内失败次数:2</div>
+                            <div><span style="color: red">成功率:60 小于等于 90</span></div>
+                        </body>
+                    </html>]]>
+                </context>
+                <logo>:/theme/mainframe/YYboy16.png</logo>
+                <bgcolor>6699BB</bgcolor>
+                <buttonItemSpace>1</buttonItemSpace>
+                <yesButton action="https://stats.duowan.com/stats/index/?module_id=1000285" textColor="0,0,0" iconPath=":/theme/mainframe/icon_find_indicator.png" transparentBackground="true" actionClose="true" actionLogin="false">查看</yesButton>
+            </message>
+        </sysmessage>
+    </message>
+</sysmessage>

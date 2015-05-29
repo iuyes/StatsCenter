@@ -1,0 +1,47 @@
+#! /usr/bin/php
+<?php
+define('DEBUG', 'on');
+define('WEBPATH', __DIR__);
+define('WEBROOT', __DIR__);
+require __DIR__ . '/../../../vendor/autoload.php';
+Swoole\Loader::vendor_init();
+
+$web = new App\WebsocketSvr();
+//$web->setLogger(new Swoole\Log\EchoLog(array('display'=>1)));
+$web->setLogger(new Swoole\Log\FileLog(__DIR__.'/../../log/stats_web.log'));
+//$svr = new App\LogSvr();
+//$svr->run($setting);
+
+$config['server'] = array(
+    'host' => '0.0.0.0',
+    'port' => '9905',
+);
+
+if (get_cfg_var('env.name') == 'dev')
+{
+    $config['swoole'] = array(
+        'log_file' => __DIR__.'/../../log/swoole.log',
+        'worker_num' => 1,
+        'max_request' => 0,
+        'daemonize' => 1,
+        'worker_num' => 1,
+        'max_request' => 0,
+        'ssl_cert_file' => '/home/shiguangqi/study/server.crt',
+        'ssl_key_file' => '/home/shiguangqi/study/server.key',
+    );
+} else {
+    $config['swoole'] = array(
+        'log_file' => __DIR__.'/../../log/swoole.log',
+        'worker_num' => 1,
+        'max_request' => 0,
+        'ssl_cert_file' => '/data/services/nginx-1.4.7.2/ssl/duowan.com.crt',
+        'ssl_key_file' => '/data/services/nginx-1.4.7.2/ssl/duowan.com.key',
+        'daemonize' => 1,
+    );
+}
+
+$server = new Swoole\Network\Server($config['server']['host'], $config['server']['port']);
+$server->setProtocol($web);
+$server->addListener('0.0.0.0', 9906, SWOOLE_UDP);
+$config['swoole']['pid_file'] = __DIR__.'/../../run/stats_web.pid';
+$server->run($config['swoole']);
